@@ -1,28 +1,36 @@
-import java.util.*;
+import java.util.Scanner;
+import java.util.ArrayList;
 
-public class Main{
-    public static void main(String args[]){
-        Scanner in=new Scanner(System.in
+public class Main {
 
-        );
-        while(in.hasNext()){
-            int n=in.nextInt();
-            int s[]=new int[n+1];
-            for(int i=0;i<n;i++){
-                s[i]=in.nextInt();
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);
+        while(input.hasNext()) {
+            String str = input.next();
+            int max = 0;
+            String maxStr = null;
+            ArrayList<String> list = null;
+            for(int i = 0; i < str.length(); i++) {
+                if(str.charAt(i) >= '0' && str.charAt(i) <= '9') {
+                    int j = i + 1;
+                    while(j < str.length() && str.charAt(j) >= '0' && str.charAt(j) <= '9') {
+                        j++;
+                    }
+                    if(j - i > max) {
+                        list = new ArrayList<>();
+                        list.add(str.substring(i, j));
+                        max = j - i;
+                    }else if(j - i == max) {
+                        list.add(str.substring(i, j));
+                    }
+                    i = j;
+                }
             }
-            int dp[][]=new int[n+1][n+1];
-            System.out.println(dfs(n,0,n-1,s,dp));
+            for(int i = 0; i < list.size(); i++) {
+                System.out.print(list.get(i)+" ");
+            }
+            System.out.println();
+            System.out.println( max);
         }
-    }
-    static int dfs(int n,int l,int r,int s[],int dp[][]){
-        if(l>r){
-            return 0;
-        }
-        if(dp[l][r]!=0){
-            return dp[l][r];
-        }
-        dp[l][r]=Math.max(s[l]*(n-r+l)+dfs(n,l+1,r,s,dp), s[r]*(n-r+l)+dfs(n,l,r-1,s,dp));
-        return dp[l][r];
     }
 }
